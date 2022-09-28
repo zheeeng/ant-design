@@ -140,6 +140,7 @@ module.exports = {
     'consistent-return': 0, // TODO: remove later
     'no-param-reassign': 0, // TODO: remove later
     'no-underscore-dangle': 0,
+    'prefer-arrow-callback': [1, { allowNamedFunctions: true }],
     // for (let i = 0; i < len; i++)
     'no-plusplus': 0,
     // https://eslint.org/docs/rules/no-continue
