@@ -9,10 +9,16 @@ export interface LinkProps
   ellipsis?: boolean;
 }
 
-const Link: React.ForwardRefRenderFunction<HTMLElement, LinkProps> = (
-  { ellipsis, rel, ...restProps },
+const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
+  {
+    ellipsis,
+    rel,
+    // @ts-expect-error: https://github.com/ant-design/ant-design/issues/26622
+    navigate: _,
+    ...restProps
+  },
   ref,
-) => {
+) {
   warning(
     typeof ellipsis !== 'object',
     'Typography.Link',
@@ -28,11 +34,7 @@ const Link: React.ForwardRefRenderFunction<HTMLElement, LinkProps> = (
     rel: rel === undefined && restProps.target === '_blank' ? 'noopener noreferrer' : rel,
   };
 
-  // https://github.com/ant-design/ant-design/issues/26622
-  // @ts-ignore
-  delete mergedProps.navigate;
-
   return <Base {...mergedProps} ref={baseRef} ellipsis={!!ellipsis} component="a" />;
-};
+});
 
-export default React.forwardRef(Link);
+export default Link;

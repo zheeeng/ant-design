@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
 import React from 'react';
@@ -41,6 +40,7 @@ describe('Test utils function', () => {
     it('throttleByAnimationFrameDecorator should works', async () => {
       const callbackFn = jest.fn();
       class Test {
+        // eslint-disable-next-line class-methods-use-this
         @throttleByAnimationFrameDecorator()
         callback() {
           callbackFn();
