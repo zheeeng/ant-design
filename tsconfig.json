@@ -13,8 +13,6 @@
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
     "noImplicitAny": true,
     "target": "es6",
     "lib": ["dom", "es2017"],
