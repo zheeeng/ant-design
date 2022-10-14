@@ -3,11 +3,13 @@ import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import type { Options } from '../../tests/shared/demoTest';
 
-(global as any).testConfig = {};
+const ref = {
+  testConfig: {} as Record<string, Options>,
+};
 
 jest.mock('../../tests/shared/demoTest', () => {
   function fakeDemoTest(name: string, option: Options = {}) {
-    (global as any).testConfig[name] = option;
+    ref.testConfig[name] = option;
   }
 
   return fakeDemoTest;
@@ -30,11 +32,14 @@ describe('node', () => {
 
       // Use mock to get config
       require(`../../${componentTestFile}`); // eslint-disable-line global-require, import/no-dynamic-require
-      const option = (global as any).testConfig?.[componentName];
+      const option = ref.testConfig?.[componentName];
 
       demoList.forEach(demoFile => {
-        const skip: string[] = option?.skip || [];
-        const test = skip.some(skipMarkdown => demoFile.includes(skipMarkdown)) ? it.skip : it;
+        const skip = option?.skip || [];
+        const test =
+          skip === true || skip.some(skipMarkdown => demoFile.includes(skipMarkdown))
+            ? it.skip
+            : it;
 
         test(demoFile, () => {
           const Demo = require(`../../${demoFile}`).default; // eslint-disable-line global-require, import/no-dynamic-require
